@@ -6,7 +6,7 @@ To refactor an existing implementation of a tic tac toe game with emphasis on en
 
 ## Approach
 
-The original codebase was difficult to follow and not well organised. The first steps were to create a test suite and modularise the code to make it more readable. The second step was to enable the game to be run. I chose to run the game where both players were 'computers' as this because it was the simplest to implement.
+The original codebase was difficult to follow and not well organised. The first steps were to create a test suite and modularise the code to make it more readable. The second step was to enable the game to be run. I chose to run the game where both players were 'computers' because it was the simplest to implement and allowed proof of my approach.
 
 The current codebase is now in a state where new features can be added more easily.
 
