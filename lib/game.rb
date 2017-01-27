@@ -1,4 +1,5 @@
 require_relative 'board'
+require_relative 'player'
 require_relative 'game_drawer'
 require_relative 'human_player'
 require_relative 'computer_player'
@@ -15,7 +16,7 @@ class Game
   def play
     until finished?
       draw_board
-      make_move
+      current_player.move(board)
     end
     show_results
   end
@@ -24,7 +25,7 @@ class Game
     board.winner
   end
 
-  def whose_turn
+  def current_player
     even_number_of_moves? ? player1 : player2
   end
 
@@ -32,24 +33,8 @@ class Game
     board.winner? || board.full?
   end
 
-  def mark_board(position, mark)
-    board.positions[position] = mark if board.valid_position?(position) 
-  end
-
   def result
     board.winner? ? 'win' : 'draw'
-  end
-
-  def make_move
-    if whose_turn == player1
-      puts "Whats your move?"
-      position = gets.chomp.to_i
-    else
-      position = board.available_positions.sample
-    end
-    mark_board(position, whose_turn.mark)
-    puts "\n#{whose_turn} marked the board at position: #{position}\n\n"
-    
   end
 
   private
@@ -69,6 +54,3 @@ class Game
   end
 
 end
-
-game = Game.new
-game.play

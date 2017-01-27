@@ -19,20 +19,20 @@ describe Game do
     end
   end
 
-  describe '#whose_turn' do
+  describe '#current_player' do
     it 'returns player 1 when an even number of moves has been made' do
-      subject.board.positions = [nil, 'x', 'o', nil, nil, nil, 'x', nil, nil]
-      expect(subject.whose_turn).to eq 'o'
+      subject.board.positions = [nil, 'x', 'o', nil, nil, nil, nil, nil, nil]
+      expect(subject.current_player).to eq subject.player1
     end
 
     it 'returns player 2 when an odd number of moves has been made' do
-      subject.board.positions = [nil, 'x', 'o', nil, nil, nil, nil, nil, nil]
-      expect(subject.whose_turn).to eq 'x'
+      subject.board.positions = [nil, 'x', 'o', nil, nil, nil, 'x', nil, nil]
+      expect(subject.current_player).to eq subject.player2
     end
 
     it 'returns player 1 when no moves have been made' do
       subject.board.positions = Array.new(9, nil)
-      expect(subject.whose_turn).to eq 'x'
+      expect(subject.current_player).to eq subject.player1
     end
   end
 
