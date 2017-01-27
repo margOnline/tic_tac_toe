@@ -1,20 +1,21 @@
 require_relative 'board'
 require_relative 'game_drawer'
+require_relative 'human_player'
+require_relative 'computer_player'
 
 class Game
   attr_accessor :player1, :player2, :board
   
-
   def initialize
     @board = Board.new
-    @player1 = "x"
-    @player2 = "o"
+    @player1 = HumanPlayer.new('x')
+    @player2 = ComputerPlayer.new('o')
   end
 
   def play
     until finished?
       draw_board
-      make_move 
+      make_move
     end
     show_results
   end
@@ -31,8 +32,8 @@ class Game
     board.winner? || board.full?
   end
 
-  def mark_board(position, player)
-    board.positions[position] = player if board.valid_position?(position) 
+  def mark_board(position, mark)
+    board.positions[position] = mark if board.valid_position?(position) 
   end
 
   def result
@@ -40,9 +41,15 @@ class Game
   end
 
   def make_move
-    position = board.available_positions.sample
+    if whose_turn == player1
+      puts "Whats your move?"
+      position = gets.chomp.to_i
+    else
+      position = board.available_positions.sample
+    end
+    mark_board(position, whose_turn.mark)
     puts "\n#{whose_turn} marked the board at position: #{position}\n\n"
-    mark_board(position, whose_turn)
+    
   end
 
   private

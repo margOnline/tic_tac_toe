@@ -23,7 +23,7 @@ describe Board do
   end
 
   describe '#winner?' do
-    it 'returns true if all the positions are full and there is a winning combination' do
+    it 'returns true if there is a winning combination' do
       subject.positions = %w(x o x x o x x o o)
       expect(subject.winner?).to be_truthy
     end
