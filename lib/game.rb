@@ -3,22 +3,15 @@ require_relative 'player'
 require_relative 'game_drawer'
 require_relative 'human_player'
 require_relative 'computer_player'
+require_relative 'user_interface'
 
 class Game
   attr_accessor :player1, :player2, :board
   
-  def initialize
-    @board = Board.new
-    @player1 = HumanPlayer.new('x')
-    @player2 = ComputerPlayer.new('o')
-  end
-
-  def play
-    until finished?
-      draw_board
-      current_player.move(board)
-    end
-    show_results
+  def initialize(board, player1, player2)
+    @board = board
+    @player1 = player1
+    @player2 = player2
   end
 
   def winner
@@ -49,8 +42,12 @@ class Game
 
   def show_results
     draw_board
-    puts "\nresult: #{result}"
-    puts "winner: #{winner}" if board.winner?
+    game_winner = board.winner? ? winner : nil
+    output_results(result, game_winner)
+  end
+
+  def output_results(result, winner)
+    UserInterface.output_result(result, winner)
   end
 
 end
