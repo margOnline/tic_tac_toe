@@ -18,6 +18,10 @@ class Board
     @positions = Array.new(9, nil)
   end
 
+  def place_marker(position, mark)
+    positions[position] = mark
+  end
+
   def full?
     positions.all?{ |position| position }
   end
@@ -40,7 +44,7 @@ class Board
     full? && !winner?
   end
 
-  def winner
+  def winning_mark
     winning_position = WINNING_COMBINATIONS.find { |combination| winning_combination?(combination)}.first
     positions[winning_position]
   end

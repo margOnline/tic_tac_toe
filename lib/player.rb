@@ -10,7 +10,7 @@ class Player
   end
 
   def mark_board(board, position)
-    board.positions[position] = mark
+    board.place_marker(position, mark)
   end
 
 end

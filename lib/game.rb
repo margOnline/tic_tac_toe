@@ -15,7 +15,7 @@ class Game
   end
 
   def winner
-    board.winner
+    players.find{ |player| has_winning_mark?(player) }
   end
 
   def current_player
@@ -31,6 +31,14 @@ class Game
   end
 
   private
+
+  def players
+    [player1, player2]
+  end
+
+  def has_winning_mark?(player)
+    player.mark == board.winning_mark
+  end
 
   def even_number_of_moves?
     board.positions.select{|position| position != nil}.count.even?

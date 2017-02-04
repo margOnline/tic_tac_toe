@@ -22,4 +22,15 @@ describe Player do
     end
   end
 
+  describe '#mark_board' do
+    let(:player) { Player.new('x') }
+    let(:board) { double(Board) }
+
+    it 'sets a board position with the player\'s mark' do
+      expect(board).to receive(:place_marker).with(3, 'x')
+      player.mark_board(board, 3)
+    end
+  end
+
 end
+

@@ -5,16 +5,16 @@ describe Game do
 
   subject { described_class.new(board, player1, player2) }
   let(:board) { double(Board) }
-  let(:player1) { double(Player) }
-  let(:player2) { double(Player) }
+  let(:player1) { double(Player, mark: 'x') }
+  let(:player2) { double(Player, mark: 'o') }
 
   before {allow(board).to receive(:positions) { board_positions }}
 
   describe '#winner' do
-    before {allow(board).to receive(:winner) { 'o' } }
+    before {allow(board).to receive(:winning_mark) { 'o' } }
 
-    it 'returns the marker of the winning combination' do
-      expect(subject.winner).to eq 'o'
+    it 'returns the player with the winning combination' do
+      expect(subject.winner).to eq player2
     end
   end
 

@@ -10,6 +10,13 @@ describe Board do
     end
   end
 
+  describe '#place_marker' do
+    it 'fills a position with a marker' do
+      subject.place_marker(3, 'x')
+      expect(subject.positions).to eq [nil,nil,nil,'x',nil,nil,nil,nil,nil,]
+    end
+  end
+
   describe '#full?' do
     it 'returns true if all the positions are full' do
       subject.positions = %w(x o x x o x x o o)
@@ -34,21 +41,21 @@ describe Board do
     end
   end
 
-  describe '#winner' do
-    context 'when the winning combingation is a' do
+  describe '#winning_mark' do
+    context 'when the winning combination is a' do
       it 'diagonal, returns the marker' do
         subject.positions = ['o', nil, nil, 'x', 'o', 'x', nil, nil, 'o']
-        expect(subject.winner).to eq 'o'
+        expect(subject.winning_mark).to eq 'o'
       end
 
       it 'column, returns the marker' do
         subject.positions = [nil, 'x', 'o', nil, 'x', 'o', 'o', 'x', 'x']
-        expect(subject.winner).to eq 'x'
+        expect(subject.winning_mark).to eq 'x'
       end
 
       it 'row, returns the marker' do
         subject.positions = %w(x x o x o x o o o)
-        expect(subject.winner).to eq 'o'
+        expect(subject.winning_mark).to eq 'o'
       end
     end
   end
