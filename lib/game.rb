@@ -6,7 +6,7 @@ require_relative 'computer_player'
 require_relative 'user_interface'
 
 class Game
-  attr_accessor :player1, :player2, :board
+  attr_accessor :board, :player1, :player2
   
   def initialize(board, player1, player2)
     @board = board
@@ -18,7 +18,7 @@ class Game
     players.find{ |player| has_winning_mark?(player) }
   end
 
-  def current_player
+  def next_player
     even_number_of_moves? ? player1 : player2
   end
 

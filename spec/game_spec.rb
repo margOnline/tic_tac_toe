@@ -18,12 +18,12 @@ describe Game do
     end
   end
 
-  describe '#current_player' do
+  describe '#next_player' do
     context 'when an even number of moves has been made' do
       let(:board_positions) { [nil, 'x', 'o', nil, nil, nil, nil, nil, nil] }
 
       it 'returns player 1' do
-        expect(subject.current_player).to eq subject.player1
+        expect(subject.next_player).to eq subject.player1
       end
     end
 
@@ -31,7 +31,7 @@ describe Game do
       let(:board_positions) { [nil, 'x', 'o', nil, nil, nil, 'x', nil, nil] }
 
       it 'returns player 2' do
-        expect(subject.current_player).to eq subject.player2
+        expect(subject.next_player).to eq subject.player2
       end
     end
 
@@ -39,7 +39,7 @@ describe Game do
       let(:board_positions) { Array.new(9, nil) }
 
       it 'returns player 1' do  
-        expect(subject.current_player).to eq subject.player1
+        expect(subject.next_player).to eq subject.player1
       end
     end
   end
