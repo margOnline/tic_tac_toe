@@ -2,12 +2,7 @@ require_relative 'player'
 
 class ComputerPlayer < Player
 
-  def move(board)
-    position = get_move(board)
-    mark_board(board, position)
-  end
-
-  def get_move(board)
+  def make_move(board=nil, try_again=false)
     board.available_positions.sample
   end
 

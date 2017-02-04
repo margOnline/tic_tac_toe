@@ -18,6 +18,25 @@ describe Game do
     end
   end
 
+  describe '#winner?' do
+
+    context 'when there is winner' do
+      before {allow(board).to receive(:winner?) { true } }
+
+      it 'returns true' do
+        expect(subject.winner?).to be_truthy
+      end
+    end
+
+    context 'when there is not a winner' do
+      before {allow(board).to receive(:winner?) { false } }
+
+      it 'returns false' do
+        expect(subject.winner?).to be_falsey
+      end
+    end
+  end
+
   describe '#next_player' do
     context 'when an even number of moves has been made' do
       let(:board_positions) { [nil, 'x', 'o', nil, nil, nil, nil, nil, nil] }
@@ -48,7 +67,6 @@ describe Game do
     context 'when the board is full' do
       before {allow(board).to receive(:winner?) { false } }
       before {allow(board).to receive(:full?) { true } }
-      # let(:board_positions) { %w(x x o o o x x o x)}
 
       it 'returns true' do
         expect(subject.finished?).to be_truthy
@@ -73,10 +91,9 @@ describe Game do
     end
   end
 
-  describe 'result' do
+  describe '#result' do
     context 'when the game is a draw' do
       before {allow(board).to receive(:winner?) { false } }
-      let(:board_positions) { %w(x x o o o x x o x) }
 
       it 'returns "draw"' do
         expect(subject.result).to eq 'draw'
@@ -91,5 +108,43 @@ describe Game do
       end
     end
   end
-  
+
+  describe '#valid_move?' do
+    let(:position) { double(:position) }
+
+    context 'when the position is a valid board position' do
+      before {allow(board).to receive(:valid_position?).with(position) { true } }
+
+      it 'returns true' do
+        expect(subject.valid_move?(position)).to be_truthy
+      end
+    end
+
+    context 'when there is a winner' do
+      before {allow(board).to receive(:valid_position?) { false } }
+
+      it 'returns false' do
+        expect(subject.valid_move?(position)).to be_falsey
+      end
+    end
+  end
+
+  describe '#update_board' do
+    let(:move) { double(:move) }
+    let(:mark) { double(:mark) }
+
+    it 'calls the board with the player\'s move and marker' do  
+      expect(board).to receive(:place_marker).with(move, mark)
+      subject.update_board(move, mark)
+    end
+  end
+
+  describe '#moves' do
+    let(:board_positions) { double(:positions) }
+    it 'gets all the positions of the board' do  
+      expect(board).to receive(:positions)
+      subject.moves
+    end
+  end
+
 end

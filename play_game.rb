@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
-require_relative 'lib/game'
+require_relative 'lib/game_engine'
 
-game = Game.new
-game.play
+game_engine = GameEngine.new
+game_engine.setup_game
+game_engine.play

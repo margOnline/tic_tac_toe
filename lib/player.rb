@@ -5,12 +5,8 @@ class Player
     @mark = mark
   end
 
-  def move
+  def make_move(board=nil, try_again=false)
     raise NotImplementedError
-  end
-
-  def mark_board(board, position)
-    board.place_marker(position, mark)
   end
 
 end

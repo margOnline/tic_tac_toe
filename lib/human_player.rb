@@ -2,14 +2,8 @@ require_relative 'player'
 
 class HumanPlayer < Player
 
-  def move(board)
-    position = get_move(board)
-    mark_board(board, position)
+  def make_move(board=nil, try_again=false)
+    UserInterface.get_move(try_again)
   end
 
-  def get_move(board)
-    board.available_positions.sample
-  end
-
-  #TODO validate mark?
 end

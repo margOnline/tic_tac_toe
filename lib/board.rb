@@ -45,8 +45,17 @@ class Board
   end
 
   def winning_mark
-    winning_position = WINNING_COMBINATIONS.find { |combination| winning_combination?(combination)}.first
     positions[winning_position]
+  end
+
+  def winning_position
+    WINNING_COMBINATIONS.find do |combination| 
+      winning_combination?(combination)
+    end.first
+  end
+
+  def available?(position)
+    positions[position].nil?
   end
 
   private
@@ -63,10 +72,6 @@ class Board
 
   def same_marker?(position1, position2)
     positions[position1] == positions[position2]
-  end
-
-  def available?(position)
-    !!positions[position].nil?
   end
 
 end

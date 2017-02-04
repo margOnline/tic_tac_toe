@@ -14,21 +14,11 @@ describe Player do
     end
   end
 
-  describe '#move' do
+  describe '#make_move' do
     let(:player) { Player.new('x') }
 
     it 'raises an error if the move method is not implemented' do
-      expect{player.move}.to raise_error(NotImplementedError)
-    end
-  end
-
-  describe '#mark_board' do
-    let(:player) { Player.new('x') }
-    let(:board) { double(Board) }
-
-    it 'sets a board position with the player\'s mark' do
-      expect(board).to receive(:place_marker).with(3, 'x')
-      player.mark_board(board, 3)
+      expect{player.make_move(double(:board))}.to raise_error(NotImplementedError)
     end
   end
 
