@@ -18,6 +18,10 @@ class Board
     @positions = Array.new(9, nil)
   end
 
+  def place_marker(position, mark)
+    positions[position] = mark
+  end
+
   def full?
     positions.all?{ |position| position }
   end
@@ -40,9 +44,18 @@ class Board
     full? && !winner?
   end
 
-  def winner
-    winning_position = WINNING_COMBINATIONS.find { |combination| winning_combination?(combination)}.first
+  def winning_mark
     positions[winning_position]
+  end
+
+  def winning_position
+    WINNING_COMBINATIONS.find do |combination| 
+      winning_combination?(combination)
+    end.first
+  end
+
+  def available?(position)
+    positions[position].nil?
   end
 
   private
@@ -59,10 +72,6 @@ class Board
 
   def same_marker?(position1, position2)
     positions[position1] == positions[position2]
-  end
-
-  def available?(position)
-    !!positions[position].nil?
   end
 
 end

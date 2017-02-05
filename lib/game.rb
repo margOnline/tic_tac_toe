@@ -1,29 +1,28 @@
 require_relative 'board'
-require_relative 'game_drawer'
+require_relative 'human_player'
+require_relative 'computer_player'
+require_relative 'user_interface'
 
 class Game
-  attr_accessor :player1, :player2, :board
+  attr_accessor :board, :player1, :player2
+
+  RESULTS = {win: "win", draw: "draw"}
   
-
-  def initialize
-    @board = Board.new
-    @player1 = "x"
-    @player2 = "o"
-  end
-
-  def play
-    until finished?
-      draw_board
-      make_move 
-    end
-    show_results
+  def initialize(board, player1, player2)
+    @board = board
+    @player1 = player1
+    @player2 = player2
   end
 
   def winner
-    board.winner
+    players.find{ |player| has_winning_mark?(player) }
   end
 
-  def whose_turn
+  def winner?
+    board.winner?
+  end
+
+  def next_player
     even_number_of_moves? ? player1 : player2
   end
 
@@ -31,37 +30,34 @@ class Game
     board.winner? || board.full?
   end
 
-  def mark_board(position, player)
-    board.positions[position] = player if board.valid_position?(position) 
-  end
-
   def result
-    board.winner? ? 'win' : 'draw'
+    board.winner? ? RESULTS[:win] : RESULTS[:draw]
   end
 
-  def make_move
-    position = board.available_positions.sample
-    puts "\n#{whose_turn} marked the board at position: #{position}\n\n"
-    mark_board(position, whose_turn)
+  def valid_move?(position)
+    board.valid_position?(position)
+  end
+
+  def update_board(move, mark)
+    board.place_marker(move, mark)
+  end
+
+  def moves
+    board.positions
   end
 
   private
+
+  def players
+    [player1, player2]
+  end
+
+  def has_winning_mark?(player)
+    player.mark == board.winning_mark
+  end
 
   def even_number_of_moves?
     board.positions.select{|position| position != nil}.count.even?
   end
 
-  def draw_board
-    GameDrawer.draw_board(board.positions)
-  end
-
-  def show_results
-    draw_board
-    puts "\nresult: #{result}"
-    puts "winner: #{winner}" if board.winner?
-  end
-
 end
-
-game = Game.new
-game.play
