@@ -1,4 +1,6 @@
 require_relative 'board'
+require_relative 'board_presenter'
+require_relative 'game_engine_presenter'
 require_relative 'player'
 require_relative 'game'
 require_relative 'human_player'
@@ -6,7 +8,7 @@ require_relative 'computer_player'
 require_relative 'user_interface'
 
 class GameEngine
-  attr_accessor :game
+  attr_accessor :game, :board_presenter, :game_engine_presenter
 
   GAME_TYPES = [
     'Human v Human',
@@ -17,19 +19,18 @@ class GameEngine
   def self.setup_game
     new.setup_game
   end
-  
-  def initialize
-  end
 
   def setup_game
+    @game_engine_presenter = GameEnginePresenter.new
     players = determine_game_type
     board = Board.new
+    @board_presenter = BoardPresenter.new(board)   
     @game = Game.new(board, players.first, players.last)
   end
 
   def play
     until finished?
-      draw_board
+      display_board
       move = get_move
       update_game(move)
     end
@@ -37,7 +38,7 @@ class GameEngine
   end
 
   def determine_game_type
-    game_type = UserInterface.prompt_for_game_type(GAME_TYPES)
+    game_type = game_engine_presenter.prompt_for_game_type(GAME_TYPES)
     setup_players_for(game_type)
   end
 
@@ -45,8 +46,8 @@ class GameEngine
     game.finished?
   end
 
-  def draw_board
-    UserInterface.draw(game_board)
+  def display_board
+    board_presenter.draw
   end
 
   def get_move
@@ -67,13 +68,13 @@ class GameEngine
   end
 
   def show_results
-    draw_board
+    display_board
     game_winner = game.winner? ? game.winner : nil
-    output_results(game.result, game_winner)
+    output_result(game.result, game_winner)
   end
 
-  def output_results(result, winner)
-    UserInterface.output_result(result, winner)
+  def output_result(result, winner)
+    game_engine_presenter.output_result(result, winner)
   end
 
   private

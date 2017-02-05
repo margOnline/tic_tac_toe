@@ -19,7 +19,7 @@ The current codebase is now in a state where new features can be added more easi
 Implement the following features: 
 
 ~~* Enable the user to choose his own moves.~~
-* Refactor the game_engine and user_interface classes to make use of a presenter.
+~~* Refactor the game_engine and user_interface classes to make use of a presenter.~~
 * Validate selection of game type.
 * Allow the user to select the level of difficulty (easy, medium, hard). 
 ~~* Allow the user to choose the game type e.g. (human v. human, computer v. computer, human v. computer)~~
