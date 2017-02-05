@@ -15,6 +15,7 @@ The current codebase is now in a state where new features can be added more easi
         ruby lib/play_game.rb
 
 ## Next Steps
+
 Implement the following features: 
 
 ~~* Enable the user to choose his own moves.~~
