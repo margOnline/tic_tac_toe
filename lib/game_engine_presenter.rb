@@ -2,9 +2,9 @@ class GameEnginePresenter
 
   USER_MESSAGES = {
     prompt_for_move: "What is your move?",
-    prompt: "Please enter",
-    try_again: "Please enter a valid position.",
-    invalid_move: "That is not a valid move.",
+    prompt_for_game_type: "What type of game do you want to play?",
+    try_again: "Please enter a valid option.",
+    invalid_option: "That is not a valid option.",
     result: "RESULT:",
     winner: "WINNER:"
   }
@@ -12,14 +12,14 @@ class GameEnginePresenter
   def initialize
   end
 
-  def prompt_for_game_type(game_types)
-    user_message = prompt_for_game_type_message(game_types)
+  def prompt_for_game_type(game_types, try_again = false)
+    user_message = try_again ? invalid_option : prompt_for_game_type_message(game_types)
     output add_newline(user_message)
     accept_input
   end
 
   def get_move(try_again = false)
-    try_again ? invalid_move : prompt_for_move
+    try_again ? invalid_option : prompt_for_move
   end
 
   def prompt_for_move(prompt=USER_MESSAGES[:prompt_for_move])
@@ -44,8 +44,8 @@ class GameEnginePresenter
     "#{string}\n"
   end
 
-  def invalid_move
-    output add_newline(USER_MESSAGES[:invalid_move])
+  def invalid_option
+    output add_newline(USER_MESSAGES[:invalid_option])
     prompt_for_move(USER_MESSAGES[:try_again])
   end
 
@@ -56,7 +56,7 @@ class GameEnginePresenter
   end
 
   def prompt_for_game_type_message(game_types)
-    message = add_newline(USER_MESSAGES[:prompt])
+    message = add_newline(USER_MESSAGES[:prompt_for_game_type])
     message += game_types_to_string(game_types)
     message
   end
