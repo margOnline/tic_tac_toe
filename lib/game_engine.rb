@@ -20,12 +20,15 @@ class GameEngine
     new.setup_game
   end
 
-  def setup_game
+  def initialize
     @game_engine_presenter = GameEnginePresenter.new
-    players = determine_game_type
     board = Board.new
-    @board_presenter = BoardPresenter.new(board)   
-    @game = Game.new(board, players.first, players.last)
+    @board_presenter = BoardPresenter.new(board)
+  end
+
+  def setup_game
+    players = create_players_for_game_type
+    @game = Game.new(board_presenter.board, players.first, players.last)
   end
 
   def play
@@ -37,9 +40,22 @@ class GameEngine
     show_results
   end
 
-  def determine_game_type
-    game_type = game_engine_presenter.prompt_for_game_type(GAME_TYPES)
+  def update_game(move)
+    game.update_board(move, next_player.mark)
+  end
+
+  private
+  def create_players_for_game_type
+    game_type = determine_game_type
     setup_players_for(game_type)
+  end
+
+  def determine_game_type
+    game_type = ''
+    until valid_game_type?(game_type)
+      game_type = game_engine_presenter.prompt_for_game_type(GAME_TYPES)
+    end
+    game_type
   end
 
   def finished?
@@ -57,10 +73,6 @@ class GameEngine
     else
       next_player.make_move(game.board, true)
     end
-  end
-
-  def update_game(move)
-    game.update_board(move, next_player.mark)
   end
 
   def next_player
@@ -81,6 +93,10 @@ class GameEngine
 
   def valid_move?(position)
     game.valid_move?(position)
+  end
+
+  def valid_game_type?(input)
+    (0..GAME_TYPES.length-1).map{|i| i+1 }.include?(input.to_i)
   end
 
   def game_board

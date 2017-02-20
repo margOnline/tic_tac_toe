@@ -9,8 +9,9 @@ describe GameEngine do
   subject { described_class.new }
   let(:game) { double(Game, board: board) }
   let(:board) { double(Board) }
-  let(:player) { double(Player, mark: 'x') }
-  let(:board_presenter) { double(BoardPresenter) }
+  let(:player1) { double(Player, mark: 'x') }
+  let(:player2) { double(Player, mark: 'o') }
+  let(:board_presenter) { double(BoardPresenter, board: board) }
   let(:game_engine_presenter) { double(GameEnginePresenter) }
 
   before do 
@@ -19,14 +20,23 @@ describe GameEngine do
     subject.game_engine_presenter = game_engine_presenter
   end
 
+  describe '#game_setup' do
+    it 'creates a game_engine_presenter' do
+      expect(game_engine_presenter).to receive(:prompt_for_game_type) { "1" }
+      expect(subject).to receive(:setup_players_for).with("1") { [player1, player2]}
+      expect(Game).to receive(:new).with(subject.board_presenter.board, player1, player2)
+      subject.setup_game
+    end
+  end
+
   describe '#play' do
     context 'when the game is in process' do
       before do 
         allow(game).to receive(:finished?).and_return(false, false, false, true)
-        allow(game).to receive(:next_player) { player }
-        allow(player).to receive(:make_move).with(board)
+        allow(game).to receive(:next_player) { player1 }
+        allow(player1).to receive(:make_move).with(board)
         allow(game).to receive(:valid_move?) {true}
-        allow(player).to receive(:mark)
+        allow(player1).to receive(:mark)
         allow(game).to receive(:update_board) {true}
         allow(game).to receive(:winner?) { false }
         allow(game).to receive(:result) { 'tie' }
@@ -58,7 +68,7 @@ describe GameEngine do
   describe '#update_game' do
     let(:move) { double(:move) }
 
-    before { allow(game).to receive(:next_player) { player } }
+    before { allow(game).to receive(:next_player) { player1 } }
 
     it 'sets a board position with the player\'s mark' do
       subject.game = game
